@@ -34,7 +34,7 @@ private final UsuarioRepository usuarioRepo;
             throw new BadCredentialsException("Credenciales inválidas");
         }
 
-        return jwtUtil.generateToken(usuario.getEmail());
+        return jwtUtil.generateToken(usuario.getEmail(), usuario.getId());
     }
 
     //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

@@ -10,11 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ResenaDTO {
-    private Long id;
-    private String comentario;
-    private Double calificacion;
-    private Long idRestaurant;
-    private Long idUsuario;
-    private String usuarioNombre;
+public class RestaurantDetalleUpdateDTO {
+    private String nombre;
+    private String direccion;
+    private String tipoComida;
+    private String telefono;
 }

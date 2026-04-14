@@ -2,7 +2,6 @@ package com.chiris.app.restaurant_rate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.chiris.app.restaurant_rate.dto.ResenaDTO;
 import com.chiris.app.restaurant_rate.mapper.Mapper;
 import com.chiris.app.restaurant_rate.model.Resena;
@@ -26,6 +25,7 @@ public class ResenaService implements IResenaService {
 
     @Override
     public ResenaDTO createResena(ResenaDTO resena) {
+
         Restaurant rest = restRepo.findById(resena.getIdRestaurant())
                 .orElseThrow(() -> new RuntimeException("Restaurant not found"));
 
@@ -38,8 +38,10 @@ public class ResenaService implements IResenaService {
                 .restaurante(rest)
                 .usuario(usu)
                 .build();
-        Resena resenaSaved =resenaRepo.save(newResena);
-        return Mapper.toResenaDTO(resenaSaved);
-    }
 
+        Resena saved = resenaRepo.save(newResena);
+
+        return Mapper.toResenaDTO(saved);
+    }
 }
+

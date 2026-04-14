@@ -59,6 +59,7 @@ public class Mapper {
                 .calificacion(obj.getCalificacion())
                 .idRestaurant(obj.getRestaurante().getId())
                 .idUsuario(obj.getUsuario().getId())
+                .usuarioNombre(obj.getUsuario().getEmail())
                 .build();
     }
 
