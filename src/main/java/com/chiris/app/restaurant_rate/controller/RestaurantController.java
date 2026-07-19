@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -32,7 +33,12 @@ public class RestaurantController {
     private final IRestaurantService restaurantService;
 
     @GetMapping
-    public ResponseEntity<List<RestaurantDTO>> getRestaurantes() {
+    public ResponseEntity<List<RestaurantDTO>> getRestaurantes(
+            @RequestParam(name = "query", required = false) String query
+    ) {
+        if (query != null && !query.trim().isEmpty()) {
+            return ResponseEntity.ok(restaurantService.searchRestaurants(query));
+        }
         return ResponseEntity.ok(restaurantService.listRestaurants());
     }
 

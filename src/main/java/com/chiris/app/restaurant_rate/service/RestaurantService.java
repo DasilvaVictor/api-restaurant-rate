@@ -1,30 +1,33 @@
 package com.chiris.app.restaurant_rate.service;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.chiris.app.restaurant_rate.dto.ResenaDTO;
 import com.chiris.app.restaurant_rate.dto.RestaurantDTO;
 import com.chiris.app.restaurant_rate.dto.RestaurantDetalleDTO;
 import com.chiris.app.restaurant_rate.dto.RestaurantDetalleUpdateDTO;
 import com.chiris.app.restaurant_rate.mapper.Mapper;
-import com.chiris.app.restaurant_rate.model.Resena;
 import com.chiris.app.restaurant_rate.model.Restaurant;
 import com.chiris.app.restaurant_rate.repository.RestaurantRepository;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class RestaurantService implements IRestaurantService {
 
-    @Autowired
-    private RestaurantRepository resRepo;
+    private final RestaurantRepository resRepo;
     
     @Override
     public List<RestaurantDTO> listRestaurants() {
         return resRepo.getRestaurantsWithAvg();
+    }
+
+    @Override
+    public List<RestaurantDTO> searchRestaurants(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            return resRepo.getRestaurantsWithAvg();
+        }
+        return resRepo.searchRestaurantsWithAvg(query.trim());
     }
 
     @Override
@@ -76,13 +79,13 @@ public RestaurantDetalleUpdateDTO updateRestaurant(Long id, RestaurantDetalleUpd
         }
     
         Restaurant saved = resRepo.save(restaurant);
-        
-        return new RestaurantDetalleUpdateDTO(
-            saved.getNombre(),
-            saved.getTipoComida(),
-            saved.getDireccion(),
-            saved.getTelefono()
-        );
+
+        return RestaurantDetalleUpdateDTO.builder()
+                .nombre(saved.getNombre())
+                .direccion(saved.getDireccion())
+                .tipoComida(saved.getTipoComida())
+                .telefono(saved.getTelefono())
+                .build();
     }
 
 }

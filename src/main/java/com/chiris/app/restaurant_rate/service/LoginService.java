@@ -11,19 +11,16 @@ import com.chiris.app.restaurant_rate.model.Usuario;
 import com.chiris.app.restaurant_rate.repository.UsuarioRepository;
 import com.chiris.app.restaurant_rate.utils.JwtUtil;
 
+import lombok.AllArgsConstructor;
+
 @Service
+@AllArgsConstructor
 public class LoginService implements ILoginService {
 
 private final UsuarioRepository usuarioRepo;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-
-    public LoginService(UsuarioRepository usuarioRepo, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
-        this.usuarioRepo = usuarioRepo;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
-    }
 
     @Override
     public String login(LoginDTO loginDTO) {
