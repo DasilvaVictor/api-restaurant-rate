@@ -64,12 +64,12 @@ public class Mapper {
     }
 
     public static UsuarioDTO toUsuarioDTO(Usuario obj) {
-        // Implement the mapping logic here
+        // El password no se mapea: nunca debe salir en las respuestas.
         return UsuarioDTO.builder()
                 .id(obj.getId())
                 .nombre(obj.getNombre())
                 .email(obj.getEmail())
-                .password(obj.getPassword())
+                .rol(obj.getRol())
                 .build();
     }
 }

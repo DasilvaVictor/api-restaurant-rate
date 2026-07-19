@@ -1,9 +1,10 @@
 package com.chiris.app.restaurant_rate.config;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.List;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -48,11 +49,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Usuario usuario = usuarioRepo.findByEmail(email).orElse(null);
 
             if (usuario != null) {
+                // Autoridad basada en el rol: Spring espera el prefijo "ROLE_".
+                var authorities = List.of(
+                        new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name())
+                );
+
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 usuario,
                                 null,
-                                Collections.emptyList()
+                                authorities
                         );
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);

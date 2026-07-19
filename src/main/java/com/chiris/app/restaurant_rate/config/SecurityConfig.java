@@ -2,6 +2,7 @@ package com.chiris.app.restaurant_rate.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -30,6 +31,11 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/actuator/health/**").permitAll()
+                // La gestion de usuarios (listar/crear/editar/eliminar) solo la hace un ADMIN.
+                .requestMatchers(HttpMethod.GET, "/api/v1/usuarios/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/v1/usuarios").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/api/v1/usuarios/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/usuarios/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)

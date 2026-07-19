@@ -5,8 +5,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.chiris.app.restaurant_rate.dto.LoginDTO;
-import com.chiris.app.restaurant_rate.dto.UsuarioDTO;
-import com.chiris.app.restaurant_rate.mapper.Mapper;
 import com.chiris.app.restaurant_rate.model.Usuario;
 import com.chiris.app.restaurant_rate.repository.UsuarioRepository;
 import com.chiris.app.restaurant_rate.utils.JwtUtil;
@@ -33,19 +31,4 @@ private final UsuarioRepository usuarioRepo;
 
         return jwtUtil.generateToken(usuario.getEmail(), usuario.getId());
     }
-
-    //private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    
-    @Override
-    public UsuarioDTO createUser(UsuarioDTO usuario) {
-        Usuario newUser = Usuario.builder()
-                .nombre(usuario.getNombre())
-                .email(usuario.getEmail())
-                .password(passwordEncoder.encode(usuario.getPassword()))
-                .build();
-        Usuario usuarioSaved = usuarioRepo.save(newUser);
-        return Mapper.toUsuarioDTO(usuarioSaved);
-    }
-
-
 }
