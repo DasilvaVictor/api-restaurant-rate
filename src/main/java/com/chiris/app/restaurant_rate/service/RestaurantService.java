@@ -2,6 +2,7 @@ package com.chiris.app.restaurant_rate.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.chiris.app.restaurant_rate.dto.RestaurantDTO;
 import com.chiris.app.restaurant_rate.dto.RestaurantDetalleDTO;
 import com.chiris.app.restaurant_rate.dto.RestaurantDetalleUpdateDTO;
@@ -31,6 +32,7 @@ public class RestaurantService implements IRestaurantService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RestaurantDetalleDTO getRestaurantById(Long id) {
         return resRepo.findById(id)
                 .map(Mapper::toDetalleDTO)
