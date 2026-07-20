@@ -4,4 +4,5 @@ import com.chiris.app.restaurant_rate.dto.LoginDTO;
 
 public interface ILoginService {
     String login(LoginDTO login);
+    void logout(String token);
 }

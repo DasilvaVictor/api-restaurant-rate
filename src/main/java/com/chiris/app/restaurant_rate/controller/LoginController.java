@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.chiris.app.restaurant_rate.dto.LoginDTO;
 import com.chiris.app.restaurant_rate.service.ILoginService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -30,5 +31,16 @@ public class LoginController {
         response.put("token", token);
 
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            loginService.logout(authHeader.substring(7));
+        }
+
+        return ResponseEntity.noContent().build();
     }
 }

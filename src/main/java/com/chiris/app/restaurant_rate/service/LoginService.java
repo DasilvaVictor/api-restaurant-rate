@@ -19,6 +19,7 @@ private final UsuarioRepository usuarioRepo;
 
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final TokenBlacklistService tokenBlacklistService;
 
     @Override
     public String login(LoginDTO loginDTO) {
@@ -30,5 +31,12 @@ private final UsuarioRepository usuarioRepo;
         }
 
         return jwtUtil.generateToken(usuario.getEmail(), usuario.getId());
+    }
+
+    @Override
+    public void logout(String token) {
+        if (jwtUtil.isValid(token)) {
+            tokenBlacklistService.blacklist(token, jwtUtil.extractExpiration(token));
+        }
     }
 }

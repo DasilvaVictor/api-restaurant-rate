@@ -41,7 +41,7 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers("/api/v1/auth/login").permitAll()
                 .requestMatchers("/actuator/health/**").permitAll()
                 // La gestion de usuarios (listar/crear/editar/eliminar) solo la hace un ADMIN.
                 .requestMatchers(HttpMethod.GET, "/api/v1/usuarios/**").hasRole("ADMIN")

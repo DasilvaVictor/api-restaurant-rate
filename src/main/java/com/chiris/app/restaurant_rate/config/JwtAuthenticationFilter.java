@@ -11,6 +11,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.chiris.app.restaurant_rate.model.Usuario;
 import com.chiris.app.restaurant_rate.repository.UsuarioRepository;
+import com.chiris.app.restaurant_rate.service.TokenBlacklistService;
 import com.chiris.app.restaurant_rate.utils.JwtUtil;
 
 import jakarta.servlet.FilterChain;
@@ -23,10 +24,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UsuarioRepository usuarioRepo;
+    private final TokenBlacklistService tokenBlacklistService;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, UsuarioRepository usuarioRepo) {
+    public JwtAuthenticationFilter(JwtUtil jwtUtil, UsuarioRepository usuarioRepo, TokenBlacklistService tokenBlacklistService) {
         this.jwtUtil = jwtUtil;
         this.usuarioRepo = usuarioRepo;
+        this.tokenBlacklistService = tokenBlacklistService;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = authHeader.substring(7);
 
-        if (jwtUtil.isValid(token)) {
+        if (jwtUtil.isValid(token) && !tokenBlacklistService.isBlacklisted(token)) {
             String email = jwtUtil.extractEmail(token);
             Usuario usuario = usuarioRepo.findByEmail(email).orElse(null);
 
