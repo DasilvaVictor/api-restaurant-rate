@@ -2,7 +2,7 @@ package com.chiris.app.restaurant_rate;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
+import org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration;
 
 // Se excluye UserDetailsServiceAutoConfiguration: la autenticacion es 100% manual via JWT
 // (JwtAuthenticationFilter + LoginService), no se usa AuthenticationManager/UserDetailsService.
